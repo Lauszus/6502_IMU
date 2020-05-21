@@ -6,19 +6,21 @@ The code is released under the MIT License.
 _________
 [![](https://github.com/Lauszus/6502_IMU/workflows/CI/badge.svg)](https://github.com/Lauszus/6502_IMU/actions?query=branch%3Amaster)
 
-6502 code for estimating roll and pitch using a [MPU-6500](https://invensense.tdk.com/products/motion-tracking/6-axis/mpu-6500/).
+6502 code for estimating roll and pitch using an IMU.
+
+Several InvenSense sensors are supported. Including [MPU-6500](https://invensense.tdk.com/products/motion-tracking/6-axis/mpu-6500/), [MPU-9250](https://invensense.tdk.com/products/motion-tracking/9-axis/mpu-9250/) or [ICM-20689](https://invensense.tdk.com/products/motion-tracking/6-axis/icm-20689/).
 
 ## Hardware
 
-The hardware is based on Ben Eater's excellent YouTube video series: <https://eater.net/6502>.
+The hardware is based on Ben Eater's excellent YouTube series: <https://eater.net/6502>.
 
 The original schematic can be found in [docs/6502.png](docs/6502.png).
 
-The switches on PA0-PA3 has been removed and are used for bit baning SPI. This is used for communicating with a MPU-6500.
+The switches on PA0-PA3 has been removed and are used for bit baning SPI. This is used for communicating with the IMU.
 
 The pins are connected according to the following table:
 
-| 6502 |  MPU-6500  |
+| 6502 | IMU        |
 |------|------------|
 | PA0  | CLK        |
 | PA1  | MOSI (SDI) |
@@ -35,6 +37,14 @@ To build and flash the application simply run:
 ```bash
 make flash
 ```
+
+The image below shows the output from the program on the LCD display:
+
+<img src="img/lcd.jpg" height="500">
+
+The first two values are the roll and pitch angles respectively. The angle will be in the range 0-255, thus 90 degrees corresponds to a value 64.
+
+The bottom three values are the top 8-bits of the x,y,z-axis accelerometer values respectively.
 
 ### vasm
 
