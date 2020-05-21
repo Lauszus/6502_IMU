@@ -1,0 +1,26 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    timeout-minutes: 5
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache vasm
+      uses: actions/cache@v1
+      id: cache-vasm
+      with:
+        path: ~/vasm
+        key: ${{ runner.os }}-vasm-v1.8h
+    - name: Make vasm
+      if: steps.cache-vasm.outputs.cache-hit != 'true'
+      run: |
+        wget http://sun.hasenbraten.de/vasm/release/vasm.tar.gz
+        tar -xvf vasm.tar.gz -C ~/
+        make CPU=6502 SYNTAX=oldstyle -C ~/vasm
+    - name: Install vasm
+      run: sudo cp ~/vasm/vasm6502_oldstyle /usr/local/bin/
+    - name: Compile code
+      run: make

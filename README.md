@@ -4,6 +4,7 @@
 
 The code is released under the MIT License.
 _________
+[![](https://github.com/Lauszus/6502_IMU/workflows/CI/badge.svg)](https://github.com/Lauszus/6502_IMU/actions?query=branch%3Amaster)
 
 6502 code for estimating roll and pitch using a [MPU-6500](https://invensense.tdk.com/products/motion-tracking/6-axis/mpu-6500/).
 
