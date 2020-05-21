@@ -14,7 +14,7 @@ Several InvenSense sensors are supported. Including [MPU-6500](https://invensens
 
 The hardware is based on Ben Eater's excellent YouTube series: <https://eater.net/6502>.
 
-The original schematic can be found in [docs/6502.png](docs/6502.png).
+The original schematic can be found in [img/6502.png](img/6502.png).
 
 The switches on PA0-PA3 has been removed and are used for bit baning SPI. This is used for communicating with the IMU.
 
