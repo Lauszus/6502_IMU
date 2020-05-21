@@ -202,7 +202,7 @@ loop:
   lda #' '  ; Add a space after the string
   jsr print_char
   tya       ; Print the roll angle
-  jsr print_u8_dec
+  jsr print_i8_dec
   lda #' '  ; Make sure the old characters gets overriden
   jsr print_char
   jsr print_char
@@ -240,7 +240,7 @@ loop:
   lda #(LCD_SET_DDRAM | (LCD_DDRAM_ROW_0 + 12))
   jsr lcd_instruction
   tya       ; Print the pitch angle
-  jsr print_u8_dec
+  jsr print_i8_dec
   lda #' '  ; Make sure the old characters gets overriden
   jsr print_char
   jsr print_char
