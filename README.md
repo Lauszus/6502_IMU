@@ -21,7 +21,7 @@ The switches on PA0-PA3 has been removed and are used for bit baning SPI. This i
 The pins are connected according to the following table:
 
 | 6502 | IMU        |
-|------|------------|
+|:-----|:-----------|
 | PA0  | CLK        |
 | PA1  | MOSI (SDI) |
 | PA2  | MISO (SDO) |
