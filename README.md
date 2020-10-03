@@ -28,7 +28,7 @@ The pins are connected according to the following table:
 | PA3  | CS (NCS)   |
 | NMI  | INT        |
 
-Furthermore an optional LED can be connected to PA4.
+Furthermore an optional LED can be connected to PA4, which is blinked every 10 ms using the Timer1 interrupt inside the W65C22 (Versatile Interface Adapter (VIA)).
 
 ## Software
 

@@ -12,7 +12,7 @@ SPI_CS        = %00001000
 ; Flag used to indicate if it is a SPI read transfer
 MPU_SPI_READ_FLAG = $80
 
-; MPU-9250 registers
+; MPU registers
 MPU_SMPLRT_DIV      = $19 ; Sample Rate Divider register
 MPU_CONFIG          = $1A ; Configuration
 MPU_GYRO_CONFIG     = $1B ; Gyroscope Configuration
@@ -42,8 +42,8 @@ MPU_USER_CTRL       = $6A ; User Control register
 MPU_PWR_MGMT_1      = $6B ; Power Management 1 register
 MPU_WHO_AM_I        = $75 ; Who Am I register
 
-; MPU-6500 MPU-9250 identification values.
-; These are the values returned by ::MPU9250_WHO_AM_I register to indicate the type of sensor.
+; MPU identification values.
+; These are the values returned by MPU_WHO_AM_I register to indicate the type of sensor.
 MPU6500_WHO_AM_I_ID   = $70
 MPU9250_WHO_AM_I_ID   = $71
 ICM20689_WHO_AM_I_ID  = $98

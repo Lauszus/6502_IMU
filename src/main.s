@@ -61,8 +61,8 @@ LCD_RW      = %01000000
 LCD_RS      = %00100000
 
 ; Display instructions
-LCD_CLEAR_DISPLAY   = $00000001
-LCD_RETURN_HOME     = $00000010
+LCD_CLEAR_DISPLAY   = %00000001
+LCD_RETURN_HOME     = %00000010
 LCD_ENTRY_MODE_SET  = %00000100
 LCD_ON_OFF_CONTROL  = %00001000
 LCD_FUNCTION_SET    = %00100000
@@ -75,6 +75,7 @@ LCD_DDRAM_ROW_1   = $40
   ; The ROM starts at adress $8000
   .org $8000
 
+  ; Include all of our other code in the beginning of the ROM
   .include macros.s
   .include math.s
   .include delay.s
@@ -85,6 +86,7 @@ LCD_DDRAM_ROW_1   = $40
 angles_str: .asciiz "Angles:"
 assert_str: .asciiz "Assert"
 
+; This is where the application will start after a reset
 reset:
   ; Initialize the stack pointer
   ldx #$FF
@@ -104,10 +106,9 @@ reset:
   lda #(LCD_ENTRY_MODE_SET | %00000010) ; Increment and shift cursor; don't shift display
   jsr lcd_instruction
 
-  ; Set up the LED
-  lda VIA_DDRA        ; A = DDRA
-  ora #%00010000      ; A |= 0b00010000
-  sta VIA_DDRA        ; Set PA4 as an output
+  ; PA4 is used as an output for blinking a LED
+  SET_BITS VIA_DDRA,%00010000
+
   cli                 ; Clear interrupt disable bit
   jsr init_10ms_timer ; Initiailize timer to interupt every 10 ms
 
@@ -116,6 +117,7 @@ reset:
   jsr mpu_init
 
 loop:
+  ; You can use this code to poll the IMU if you have not connected the INT pin
   ; Wait until the bit has cleared
   ;lda #MPU_INT_STATUS
   ;jsr spi_read
@@ -133,7 +135,7 @@ loop:
   lda #(LCD_SET_DDRAM | (LCD_DDRAM_ROW_1 + 1))
 .mpu_print_loop:
   jsr lcd_instruction
-  clc                 ; Clear the carry-but before the addition
+  clc                 ; Clear the carry-bit before the addition
   adc #5              ; Move the cursor 5 to the right, as the maximum length is 4 fx '-123'
   pha
 
@@ -162,10 +164,9 @@ loop:
   ;   pitch = atan2(-X, Z)
   ;
   ; Note that X is inverted, so the angle follows the right-hand rule
-  ; This is breaks when the angles gets more than 90 deg, for more information
-  ; see: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
+  ; See: http://www.freescale.com/files/sensors/doc/app_note/AN3461.pdf
 
-  ; Get the atan2 x arguments
+  ; Get the atan2 x argument
   ldx #4  ; Get the Z-axis value
   lda spi_data,x
   sta $00
@@ -341,12 +342,12 @@ mpu_init:
 nmi_interrupt:
   pha
 
-  ; Read all the 3-axis of the accelerometer
+  ; Read all 3-axis of the accelerometer
   lda #MPU_ACCEL_XOUT_H
   ldx #6
   jsr spi_read_data
 
-  ; Indicate that the data has been read
+  ; Set flag to indicate that the data has been read
   lda #$01
   sta mpu_data_read
 
